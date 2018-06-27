@@ -1,0 +1,96 @@
+Phase cavity monitor code
+
+PV initialization(BAT_init)
+	Creates a struct of PVs
+
+	Define SIOC PV pre-name
+
+	Cavity value
+		Reasonate frequency
+		Time offset
+		Charge scale 
+
+	Electronic definition
+		Amplitude gain
+		Attenuation setting
+		waveform points
+
+	EVR
+		Trigger
+		Event code
+		Delay
+
+	Global setting
+		Beam charge
+		Temperature
+		Humidity
+		Beam rate
+
+	MISC.
+
+Adding comments, EGU, and etc to some of the input and output PVs initialized in BAT_init
+
+Collect the data from the PVs created from BAT_init (BAT_collect)
+	Calls lcaGetStruct to collect the struct created
+	NaN any PV that wasn't connected
+	Check if the waveform collected from ADC is the correct length
+
+Check for any error from the BAT_collect
+	Check for NaN
+		charge
+		charge_max
+		attenuator value
+		amplitude gain
+
+	Check for charge/attn/ampl value
+		charge to max charge ratio
+		if ratio after applying attenuator is still >=1 set attn to max
+		if charge is < set amplitude threshold,
+			then switch amplifier to high gain
+		if readback attn value ~= newly set value, then set attn to that value
+
+	Check for any NaN
+		trig enable
+		trig event code 
+		trig event code enable
+		trig delay
+
+	Check for trigger value
+		if triggering on any event code
+		if triggering on multiple event code
+		check if trigger delay makes sense
+		if new delay and old delay isn't the same
+			then change it to the new value
+
+	Check AFE status
+		waveform time stamp
+		phase shift controller
+
+BAT_calc
+	Calculate phase change and amplitude value
+	Calculate phase change
+	Assign values to PV/matlab variable for plotting
+
+Base on BAT_calc result check for any error
+	Check if charge and max_count is a number bigger than 0
+	Check see if max_count is bigger than adc background noise(if it isn't, then there is something wrong)
+	Base on phase calculated from BAT_calc, if phase jump and charge is bigger than the preset threshold
+		then resync toggle and rearm the ADC
+	Average the phase from the cavities to calulate the phase shift for each experiment hall
+	Also calulate the phase shift for the up stream phase shifter
+////////////////////////////////
+////NOTE: code mention NEH,FEH shifter, but also upstream and downstream shifter.  It would be good to understand EXACTLY HOW MANY shifters there are
+////////////////////////////////
+	
+Put values in "buffer"
+	charge
+	time
+	frequency
+	max count
+	phase difference
+
+Prepare output value struct
+	update old values with new calculated/collected value
+	output the value to PV
+	report error if there are any
+
