@@ -1,9 +1,3 @@
-t = 1234, 4321, 'hello!'
-print(t[0])
-v = [1, 3, 5, 6]
-u = t, v, (1, 2, 3, 4, 5)
-print(u)
-v.insert(2, 99)
-print(u)
-a, b, c = t
-print(a)
+import SPV_setup as test 
+
+test.SPV_setup('SIOC:SYS0:ML00:AO742', 'Full signal charge', 'pC', 2,   'BAT_mon')

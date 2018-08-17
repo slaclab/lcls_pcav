@@ -21,19 +21,25 @@ def Pcav_PV_Init(IOC, EVR, SIOC):
            ('EVR_PV_Trig_Eventcode_Ena' , ''),
            ('EVR_PV_Trig_Delay'     , EVR+':CTRL.DG0D'),
            ('ADC_PV_Waveform'       , IOC+':dig1:WAV'),
-           ('Ele_PV_Resync'         , IOC+':BTAM2:Resync')])
+           ('Ele_PV_Resync'         , IOC+':BTAM2:Resync'),
+           ('Ele_PV_Ctrl_Time_Q'    , IOC+':PhaseShifter2:Q'),
+           ('Ele_PV_Ctrl_Time_I'    , IOC+':PhaseShifter2:I')
+           ])
     return PVs
 
 def Pcav_Var_Init():
     Vars = dict([
+        ('Prog_name'   ,  ''),
         ('ADC_Clk'     ,  ''),
-        ('ADC_Chan'    ,  4),
-        ('ADC_Points'  ,  1024),
+        ('ADC_Chan'    ,  ''),
+        ('ADC_Points'  ,  ''),
 
         ('Calc_Filter_w'    ,  ''),
         ('Calc_Wav_Time'    ,  ''),
         ('Calc_Filter_Type' ,  ''),
-        ('Calc_Wav_Length'  ,  0),
+        ('Calc_Filter_Num'  ,  ''),
+        ('Calc_Filter_Den'  ,  ''),
+        ('Calc_Wav_Length'  ,  ''),
         ('Calc_Wav_Bckgrnd' ,  ''),
         ('Calc_Fbck_ADC_Thres' ,  ''),
         ('Calc_Fbck_Maxstep'  ,  ''),
@@ -55,5 +61,6 @@ def Pcav_Var_Init():
         ('Cav_LO_Freq'   ,  ''),
         ('Cav_RF_Freq'   ,  ''),
         ('Cav_Num'       ,  ''),
-        ('Cav_REF_Freq'  ,  '')])
+        ('Cav_REF_Freq'  ,  '')
+        ])
     return Vars

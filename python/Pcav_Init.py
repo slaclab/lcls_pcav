@@ -1,6 +1,7 @@
 class phase_cavity_sys:
 	def __init__(self):
 		"""Creating all the variables that are common to all phase cavities"""
+		self.Prog_name = []
 		self.Cav_Set = [] # Number of pairs of pcavs really two caviy makes up one system
 		self.Cav_Num = [] # Number of cavities
 		self.Cav_RF_Freq  = []  # Cavity RF frequency
@@ -14,7 +15,7 @@ class phase_cavity_sys:
 		self.Cav_PV_Beamf  = []
 		self.Cav_PV_Humidity = []
 		
-		
+				
 		self.Calc_Fbck_Rate = []  # Feeback rate 
 		self.Calc_Fbck_VCO_Gain =  []  # rad in VCO freq per pico second
 		self.Calc_Fbck_Maxstep   = []
@@ -31,6 +32,8 @@ class phase_cavity_sys:
 		self.Calc_Filter_Poles = []
 		self.Calc_Filter_w     = []
 		self.Calc_Filter_Type  = []
+		self.Calc_Filter_Num   = []
+		self.Calc_Filter_Den   = []
 
 		self.Calc_Wav_Bckgrnd   = []
 		self.Calc_Wav_Time_Step = []
@@ -40,6 +43,8 @@ class phase_cavity_sys:
 
 
 		self.Ele_PV_Resync = []
+		self.Ele_PV_Ctrl_Time_Q= [] # Pphase shifter #2 I & Q
+		self.Ele_PV_Ctrl_Time_I= [] 
 
 		self.EVR_Trig_Delay    = []
 		self.EVR_Trig_Ena      = []
