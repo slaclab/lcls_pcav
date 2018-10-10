@@ -28,10 +28,13 @@ evr_chan = 15
 
 
 Cav = range(Cavity_Set)
+Cav_val = range(Cavity_Set)
 PCav_Sys = sys_setup.phase_cavity_sys()
+PCav_val = sys_setup.phase_cavity_sys()
 for i in range(Cavity_Set):
     # print i
     Cav[i] = cavity_setup.cavity_init()
+    Cav_val[i] = cavity_setup.cavity_init()
 # Cav1 = cavity_setup.cavity_init()
 # Cav2 = cavity_setup.cavity_init()
 
@@ -81,16 +84,16 @@ for i in range(2):
         # if any(blah in property for blah in ('Ele_PV', 'Cav_PV', 'Calc_PV')):
         # if "PV" not in property:
         #     pass
-        if value == []:
-            print property, ": ", value
+        if 'PV' in property:
+            print property
     print '\n'
 
 for property, value in vars(PCav_Sys).iteritems():
-    if value == []:
-        print property, ": ", value
+    if 'PV' in property:
+        print property
     # print property, ": ", value
 
-SPV_setup.SPV_dib(Cav,PCav_Sys)
+# SPV_setup.SPV_dib(Cav,PCav_Sys)
 
 # trigger_pv_setup(pcav1, 'UND:R02:EVR:16', evr_chan)
 # trigger_pv_setup(pcav2, 'UND:R02:EVR:17', evr_chan)

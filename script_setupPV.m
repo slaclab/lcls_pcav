@@ -50,9 +50,11 @@ else
     pvnum = strtok(a{4}, 'AO');
 end
 
-pv = strcat(prefix, ':', sysx, ':', mlxx, ':AO', pvnum);
-pv_comment = strcat(prefix, ':', sysx, ':', mlxx, ':SO0', pvnum);
+pv = strcat(prefix, ':', sysx, ':', mlxx, ':AO', pvnum)
+pv_comment = strcat(prefix, ':', sysx, ':', mlxx, ':SO0', pvnum)
 
+% disp pv_comment
+% disp comment
 lcaPut(strcat(pv, '.DESC'), text);
 lcaPut(strcat(pv, '.EGU'), egu);
 lcaPut(strcat(pv, '.PREC'), prec);
