@@ -102,7 +102,7 @@ for property, value in vars(PCav_Sys).iteritems():
             value_len = len(value)
             for x in range(value_len):
                 print(value[x])
-                print(['value is' + str(epics.caget(value[x]))])            
+                print(['value is: ' + str(epics.caget(value[x]))])            
             
 # Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
