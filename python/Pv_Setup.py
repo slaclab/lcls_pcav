@@ -139,8 +139,8 @@ def trigger_pv_setup(Cav_Sys, evr='', evr_index=1):
 			Cav_Sys.EVR_PV_Trig_Eventcode_Ena[i] = evr + ':TRIG0:EVENT' + Str_Event_Enable
 		else:
 			Cav_Sys.EVR_PV_Trig_Ena[i] = evr + ':EVENT' + str(i) + Str_Out
-			Cav_Sys.EVR_PV_Trig_Eventcode[i] = evr + 'EVENT' + str(i) + Str_Eventcode
-			Cav_Sys.EVR_PV_Trig_Eventcode_Ena[i] = evr + 'EVENT' + str(i) + Str_Event_Enable
+			Cav_Sys.EVR_PV_Trig_Eventcode[i] = evr + ':EVENT' + str(i) + Str_Eventcode
+			Cav_Sys.EVR_PV_Trig_Eventcode_Ena[i] = evr + ':EVENT' + str(i) + Str_Event_Enable
 		# print(Cav_Sys.EVR_PV_Trig_Ena[i])
 		# print(Cav_Sys.EVR_PV_Trig_Eventcode[i])
 		# print(Cav_Sys.EVR_PV_Trig_Eventcode_Ena[i])
