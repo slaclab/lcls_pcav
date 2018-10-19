@@ -95,6 +95,7 @@ for property, value in vars(PCav_Sys).iteritems():
     if 'PV' in property:
         # print property
         print property, ": ", value
+        print epics.caget(value)
 
 # Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
