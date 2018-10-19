@@ -1,0 +1,1 @@
+/afs/slac/g/lcls/package/pydm/setup_pydm_env.bash

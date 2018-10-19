@@ -1,6 +1,7 @@
 import Pcav_Init as sys_setup
 import Cavity_Init as cavity_setup
 import SPV_setup
+import epics as epics
 
 import Pv_Setup as PV
 import numpy as np
@@ -65,8 +66,8 @@ for i in range(2):
 # print blah
 # for i in blah:
 #     # print i
-#     blah[i] = blah[i] + 1
-#     # print blah[i]
+#     blah[i] = blah[i] + 1#     # print blah[i]
+
 # print blah
 # print Cav[1].Ele_Attn_start
 # print Cav[1].Ele_Attn_end
@@ -85,15 +86,20 @@ for i in range(2):
         # if "PV" not in property:
         #     pass
         if 'PV' in property:
-            print property
+            print property, ": ", value
+            # print type(value)
+            print epics.caget(value)
     print '\n'
 
 for property, value in vars(PCav_Sys).iteritems():
     if 'PV' in property:
-        print property
-    # print property, ": ", value
+        # print property
+        print property, ": ", value
 
+# Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
+
+
 
 # trigger_pv_setup(pcav1, 'UND:R02:EVR:16', evr_chan)
 # trigger_pv_setup(pcav2, 'UND:R02:EVR:17', evr_chan)
