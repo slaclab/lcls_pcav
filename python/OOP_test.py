@@ -88,7 +88,7 @@ for i in range(2):
         if 'PV' in property:
             print property, ": ", value
             # print type(value)
-            print epics.caget(value)
+            print [str(value) + ' value is: ' + str(epics.caget(value))]
     print '\n'
 
 for property, value in vars(PCav_Sys).iteritems():
@@ -101,10 +101,10 @@ for property, value in vars(PCav_Sys).iteritems():
         if (value_type is list):
             value_len = len(value)
             for x in range(value_len):
-                print(value[x])
-                print(['value is: ' + str(epics.caget(value[x]))])            
+                # print(value[x])
+                print([str(value[x]) + ' value is: ' + str(epics.caget(value[x]))])            
         else: 
-            print(epics.caget(value))
+            print [str(value) + ' value is: ' + str(epics.caget(value))]
             
 # Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
