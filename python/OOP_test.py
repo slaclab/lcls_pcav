@@ -97,9 +97,9 @@ for property, value in vars(PCav_Sys).iteritems():
         # print value_type
         if (value_type is list):
             value_len = len(value)
+            temp = range(value_len)
             for x in range(value_len):
                 # print(value[x])
-                temp = range(value_len)
                 temp[x] = epics.caget(value[x])
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
                 setattr(PCav_val, property, temp)
@@ -113,17 +113,8 @@ print ('########################################################################
 # System and cavity value
 for i in range(2):
     for property, value in vars(Cav_val[i]).iteritems():
-        # if any(temp in property for temp in ("ADC", "Cav")):
-        #     if "PV" not in property:
-        # if 'Fbck' in property:
-        # print property, ": ", value
-        # if any(blah in property for blah in ('Ele_PV', 'Cav_PV', 'Calc_PV')):
-        # if "PV" not in property:
-        #     pass
         if 'PV' in property:
             print property, ": ", value
-            # print type(value)
-            # print(str(value) + ' value is: ' + str(epics.caget(value)))
     print '\n'
 
 for property, value in vars(PCav_val).iteritems():
@@ -131,14 +122,7 @@ for property, value in vars(PCav_val).iteritems():
         # print property
         print property, ": ", value
         value_type = type(value)
-        # print value_type
-        # if (value_type is list):
-        #     value_len = len(value)
-        #     for x in range(value_len):
-        #         # print(value[x])
-        #         print(str(value[x]) + ' value is: ' + str(epics.caget(value[x])))
-        # else: 
-        #     print(str(value) + ' value is: ' + str(epics.caget(value)))
+
             
 # Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
