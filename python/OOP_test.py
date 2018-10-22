@@ -80,17 +80,13 @@ for i in range(2):
 # caget values from the PVs
 for i in range(2):
     for property, value in vars(Cav[i]).iteritems():
-        # if any(temp in property for temp in ("ADC", "Cav")):
-        #     if "PV" not in property:
-        # if 'Fbck' in property:
-        # print property, ": ", value
-        # if any(blah in property for blah in ('Ele_PV', 'Cav_PV', 'Calc_PV')):
-        # if "PV" not in property:
-        #     pass
         if 'PV' in property:
             print property, ": ", value
             # print type(value)
-            print(str(value) + ' value is: ' + str(epics.caget(value)))
+            value1 = epics.caget(value)
+            setattr(Cav_val[i], property, value1)
+            print(str(value) + ' value is: ' + str(value1))
+
     print '\n'
 
 for property, value in vars(PCav_Sys).iteritems():
