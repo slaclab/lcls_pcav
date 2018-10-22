@@ -99,9 +99,13 @@ for property, value in vars(PCav_Sys).iteritems():
             value_len = len(value)
             for x in range(value_len):
                 # print(value[x])
-                print(str(value[x]) + ' value is: ' + str(epics.caget(value[x])))
-        else: 
-            print(str(value) + ' value is: ' + str(epics.caget(value)))
+                temp[x] = epics.caget(value[x])
+                print(str(value[x]) + ' value is: ' + str(temp[x]))
+                setattr(PCav_val, property, temp)
+        else:
+            value1 = epics.caget(value)
+            setattr(PCav_val, property, value1)
+            print(str(value) + ' value is: ' + str(value1))
 
 print ('########################################################################')
 print ('########################################################################')
