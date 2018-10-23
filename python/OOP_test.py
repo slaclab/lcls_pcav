@@ -81,7 +81,7 @@ for i in range(2):
 for i in range(2):
     for property, value in vars(Cav[i]).iteritems():
         if 'PV' in property:
-            print property, ": ", value
+            # print property, ": ", value
             # print type(value)
             value1 = epics.caget(value)
             setattr(Cav_val[i], property, value1)
@@ -92,7 +92,7 @@ for i in range(2):
 for property, value in vars(PCav_Sys).iteritems():
     if 'PV' in property:
         # print property
-        print property, ": ", value
+        # print property, ": ", value
         value_type = type(value)
         # print value_type
         if (value_type is list):
@@ -125,10 +125,11 @@ for property, value in vars(PCav_val).iteritems():
     if 'PV' in property:
         # print property
         print property, ": ", value
-        if any(np.isnan(value)):
-            good = 0
-        else:
-            good = 1
+        print np.isnan(value)
+        # if any(np.isnan(value)):
+        #     good = 0
+        # else:
+        #     good = 1
 
 if ~good:
     print "There is a NaN in the PV"
