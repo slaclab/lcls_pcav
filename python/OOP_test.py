@@ -139,8 +139,8 @@ for property, value in vars(PCav_val).iteritems():
         #     good = 1
 
 print good
-print ~good
-if ~good:
+print not(good)
+if not(good):
     print "There is a NaN in the PV"
 else:
     print "Everything is fine."
