@@ -125,7 +125,7 @@ for property, value in vars(PCav_val).iteritems():
     if 'PV' in property:
         # print property
         print property, ": ", value
-        if np.isnan(value):
+        if any(np.isnan(value)):
             good = 0
         else:
             good = 1
