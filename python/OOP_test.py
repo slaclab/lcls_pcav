@@ -123,6 +123,11 @@ for property, value in vars(PCav_val).iteritems():
         print property, ": ", value
         value_type = type(value)
 
+if np.isnan(PCav_val):
+    print "There is a NaN in the PV"
+else:
+    print "Everything is fine."
+
             
 # Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
