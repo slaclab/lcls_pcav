@@ -133,10 +133,10 @@ for property, value in vars(PCav_val).iteritems():
         print property, ": ", value
         print np.isnan(value)
         print np.any(np.isnan(value))
-        # if any(np.isnan(value)):
-        #     good = 0
-        # else:
-        #     good = 1
+        if np.any(np.isnan(value)):
+            good = 0
+        else:
+            good = 1
 
 print good
 print not(good)
