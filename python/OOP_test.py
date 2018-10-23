@@ -115,15 +115,22 @@ for i in range(2):
     for property, value in vars(Cav_val[i]).iteritems():
         if 'PV' in property:
             print property, ": ", value
+            if np.isnan(value):
+                good = 0
+            else:
+                good = 1
     print '\n'
 
 for property, value in vars(PCav_val).iteritems():
     if 'PV' in property:
         # print property
         print property, ": ", value
-        value_type = type(value)
+        if np.isnan(value):
+            good = 0
+        else:
+            good = 1
 
-if np.isnan(PCav_val):
+if ~good:
     print "There is a NaN in the PV"
 else:
     print "Everything is fine."
