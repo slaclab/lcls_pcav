@@ -116,6 +116,8 @@ for property, value in vars(PCav_Sys).iteritems():
 
 print ('########################################################################')
 print ('########################################################################')
+good = 1
+attngood = 1
 # System and cavity value
 for i in range(2):
     for property, value in vars(Cav_val[i]).iteritems():
