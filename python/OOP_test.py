@@ -123,11 +123,11 @@ for i in range(2):
     for property, value in vars(Cav_val[i]).iteritems():
         if 'PV' in property:
             # print property, ": ", value
-            if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
+            if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                 print property, ": ", value
                 print '\n'
             if np.isnan(value):
-                if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
+                if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                     attngood = 0
                 good = 0
             else:
@@ -140,18 +140,16 @@ for property, value in vars(PCav_val).iteritems():
         # print property, ": ", value
         # print np.isnan(value)
         # print np.any(np.isnan(value))
-        if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
+        if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
             print property, ": ", value
             print '\n'        
         if np.any(np.isnan(value)):
-            if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
+            if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                     attngood = 0
             good = 0
         else:
             good = 1
 
-print good
-print not(good)
 if not(good):
     print "There is a NaN in the PV"
 else:
