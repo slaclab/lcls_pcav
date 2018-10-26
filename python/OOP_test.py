@@ -124,7 +124,7 @@ for i in range(2):
         if 'PV' in property:
             # print property, ": ", value
             if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
-                print property
+                print property, ": ", value
                 print '\n'
             if np.isnan(value):
                 if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
@@ -141,7 +141,7 @@ for property, value in vars(PCav_val).iteritems():
         # print np.isnan(value)
         # print np.any(np.isnan(value))
         if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
-            print property
+            print property, ": ", value
             print '\n'        
         if np.any(np.isnan(value)):
             if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
