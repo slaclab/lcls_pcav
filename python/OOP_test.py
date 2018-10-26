@@ -78,6 +78,10 @@ for i in range(2):
 # print blah[15]
 
 # caget values from the PVs
+good = 1
+attngood = 1
+triggood = 1
+statgood = 1
 for i in range(2):
     for property, value in vars(Cav[i]).iteritems():
         if 'PV' in property:
@@ -86,6 +90,11 @@ for i in range(2):
             value1 = epics.caget(value)
             if value1 == None:
                 value1 = np.nan
+                good = 0
+                if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+                    attngood = 0
+                elif any('EVR' in value):
+                    triggood = 0                
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
 
@@ -116,8 +125,7 @@ for property, value in vars(PCav_Sys).iteritems():
 
 print ('########################################################################')
 print ('########################################################################')
-good = 1
-attngood = 1
+
 # System and cavity value
 for i in range(2):
     for property, value in vars(Cav_val[i]).iteritems():
@@ -126,12 +134,12 @@ for i in range(2):
             if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                 print property, ": ", value
                 print '\n'
-            if np.isnan(value):
-                if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
-                    attngood = 0
-                good = 0
-            else:
-                good = 1
+            # if np.isnan(value):
+            #     if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+            #         attngood = 0
+            #     good = 0
+            # else:
+            #     good = 1
     print '\n'
 
 for property, value in vars(PCav_val).iteritems():
