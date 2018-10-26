@@ -120,8 +120,10 @@ print ('########################################################################
 for i in range(2):
     for property, value in vars(Cav_val[i]).iteritems():
         if 'PV' in property:
-            print property, ": ", value
+            # print property, ": ", value
             if np.isnan(value):
+                if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
+                    attngood = 0
                 good = 0
             else:
                 good = 1
@@ -130,10 +132,12 @@ for i in range(2):
 for property, value in vars(PCav_val).iteritems():
     if 'PV' in property:
         # print property
-        print property, ": ", value
-        print np.isnan(value)
-        print np.any(np.isnan(value))
+        # print property, ": ", value
+        # print np.isnan(value)
+        # print np.any(np.isnan(value))
         if np.any(np.isnan(value)):
+            if property in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max'):
+                    attngood = 0
             good = 0
         else:
             good = 1
@@ -145,7 +149,15 @@ if not(good):
 else:
     print "Everything is fine."
 
-            
+if not(attngood):
+    print 'Error with amp, attn, and charge'
+else:
+    print 'Amp, attn, and charge is fine'
+
+
+
+
+
 # Soft PV setup test
 # SPV_setup.SPV_dib(Cav,PCav_Sys)
 
