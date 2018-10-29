@@ -112,8 +112,8 @@ for property, value in vars(PCav_Sys).iteritems():
             for x in range(value_len):
                 # print(value[x])
                 temp[x] = epics.caget(value[x])
-                if any(ptemp in temp[x] for ptemp in ('EVR', 'evr')):
-                    print value
+                if any(ptemp in value[x] for ptemp in ('EVR', 'evr')):
+                    print value[x]
                 if temp[x] == None:
                     temp[x] = np.nan
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
