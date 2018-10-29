@@ -87,13 +87,15 @@ for i in range(2):
         if 'PV' in property:
             # print property, ": ", value
             # print type(value)
+            if any(temp in value for temp in ('EVR', 'evr')):
+                print value
             value1 = epics.caget(value)
             if value1 == None:
                 value1 = np.nan
                 good = 0
                 if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                     attngood = 0
-                elif any('EVR' in value):
+                elif any(temp in value for temp in ('EVR', 'evr')):
                     triggood = 0                
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
