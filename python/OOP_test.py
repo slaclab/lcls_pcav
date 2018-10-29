@@ -91,9 +91,9 @@ for i in range(2):
             if value1 == None:
                 value1 = np.nan
                 good = 0
-                if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+                if any(ptemp in property for ptemp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                     attngood = 0
-                elif any(temp in value for temp in ('EVR', 'evr')):
+                elif any(ptemp in value for ptemp in ('EVR', 'evr')):
                     triggood = 0                
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
@@ -112,7 +112,7 @@ for property, value in vars(PCav_Sys).iteritems():
             for x in range(value_len):
                 # print(value[x])
                 temp[x] = epics.caget(value[x])
-                if any(temp in temp[x] for temp in ('EVR', 'evr')):
+                if any(ptemp in temp[x] for ptemp in ('EVR', 'evr')):
                     print value
                 if temp[x] == None:
                     temp[x] = np.nan
