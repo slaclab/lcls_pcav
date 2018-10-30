@@ -60,23 +60,8 @@ PV.EVR_Delay(PCav_Sys)
 # Setting up the individual cavity PV name and parameters
 # print Cav[1].Ele_PV_Amp
 for i in range(2):
-    # print i
     PV.Cavity_PV_setup(Cav[i], IOC, pre, BLD_IOC, i+1)
     PV.Electronic_Atten_calibration(Cav[i], i+1)
-
-# blah = range(15)
-# print blah
-# for i in blah:
-#     # print i
-#     blah[i] = blah[i] + 1#     # print blah[i]
-
-# print blah
-# print Cav[1].Ele_Attn_start
-# print Cav[1].Ele_Attn_end
-
-# print blah[Cav[1].Ele_Attn_start]
-# print blah[9:14]
-# print blah[15]
 
 # caget values from the PVs
 old_time = datetime.datetime.now()
@@ -87,6 +72,7 @@ triggood = 1
 statgood = 1
 mmsgood  = 1
 
+# Fetching PV Values for individual cavity values
 for i in range(2):
     for property, value in vars(Cav[i]).iteritems():
         if 'PV' in property:
@@ -96,26 +82,32 @@ for i in range(2):
             if value1 == None:
                 value1 = np.nan
                 good = 0
-                # This checks if any of the attn/amp/charge value is NaN
+                # Check if any of the attn/amp/charge PV value is NaN
                 if any(ptemp in property for ptemp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                     attngood = 0
+                    # print('Error with attn/amp/charge PV value')
+                # Check if any of the EVR PV value is NaN
                 elif any(ptemp in value for ptemp in ('EVR', 'evr')):
                     triggood = 0
-                elif any(ptemp in property for ptemp in ('Status', 'status')):
-                    statgood = 0
+                    # print('Error with EVR PV value')
+                # Check if the MMS phase shifter is NaN
                 elif 'Ele_PV_Phi_Ctrl' in property:
-                    mmsgood  = 0                
+                    mmsgood  = 0
+                    # print('Error with the MMS phase shifter')
+            # Check chassis status bit    
+            if any(ptemp in property for ptemp in ('Status', 'status')):
+                statgood = 0
+                # print('Error with AFE chassis status')     
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
-
     print '\n'
 
+# Fetching PV value for the Phase Cavity system values
 for property, value in vars(PCav_Sys).iteritems():
     if 'PV' in property:
-        # print property
-        # print property, ": ", value
         value_type = type(value)
         # print value_type
+        # Checks if the PV name is in a list like the EVR PVs.
         if (value_type is list):
             value_len = len(value)
             temp = range(value_len)
@@ -125,121 +117,108 @@ for property, value in vars(PCav_Sys).iteritems():
                 if temp[x] == None:
                     temp[x] = np.nan
                     good = 0
+                    # Check if any of the attn/amp/charge PV value is NaN
                     if any(ptemp in property for ptemp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                         attngood = 0
+                    # Check if any of the EVR PV value is NaN    
                     elif any(ptemp in value[x] for ptemp in ('EVR','evr')):
                         triggood = 0
-                    elif any(ptemp in value[x] for ptemp in ('Status','status')):
-                        statgood = 0
+                    # Check if the MMS phase shifter is NaN                        
                     elif 'Ele_PV_Phi_Ctrl' in property:
-                        mmsgood  = 0
-                        
+                        mmsgood  = 0                    
+                # Check chassis status bit    
+                if (any(ptemp in property for ptemp in ('Status', 'status')) and (temp[x] != 0):
+                    statgood = 0
+                    # print('Error with AFE chassis status')                            
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
                 setattr(PCav_val, property, temp)
         else:
             value1 = epics.caget(value)
             if value1 == None:
                 value1 = np.nan            
+                good = 0
+                # Check if any of the attn/amp/charge PV value is NaN
+                if any(ptemp in property for ptemp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+                    attngood = 0
+                    # print('Error with attn/amp/charge PV value')
+                # Check if any of the EVR PV value is NaN
+                elif any(ptemp in value for ptemp in ('EVR', 'evr')):
+                    triggood = 0
+                    # print('Error with EVR PV value')
+                # Check if the MMS phase shifter is NaN
+                elif 'Ele_PV_Phi_Ctrl' in property:
+                    mmsgood  = 0
+                    # print('Error with the MMS phase shifter')
+            # Check chassis status bit    
+            if (any(ptemp in property for ptemp in ('Status', 'status')) and (value1 != 0):
+                statgood = 0
+                # print('Error with AFE chassis status') 
             setattr(PCav_val, property, value1)
             print(str(value) + ' value is: ' + str(value1))
 new_time = datetime.datetime.now()
 
 print ('########################################################################')
 print ('########################################################################')
-
-print PCav_val.Cav_PV_Beamf
+# Change print into Log in the future
+# Error report for any NaN values
+if not(good):
+    print "There is a NaN in the PV"
+else:
+    print "No NaN values"
+# Err report for amp/attn/charge NaN PV values
+if not(attngood):
+    print 'NaN Error with amp, attn, and charge'
+else:
+    print 'Amp, attn, and charge read is fine'
+# Err report for stale PV data
 if (not(new_time > old_time) and (PCav_val.Cav_PV_Beamf != 0)):
     print('Digitizer data is stale, timestamp is ' + str(new_time))
 else:
     print('Timestamp is fine ' + str(new_time))
-
+# Err report for phase shifter NaN PV values
 if not(mmsgood):
     print('Read failure from phase shifter controls')
 else:
-    print('Phase shifter is fine')
-
-# System and cavity value
-for i in range(2):
-    for property, value in vars(Cav_val[i]).iteritems():
-        if 'PV' in property:
-            # print property, ": ", value
-            if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
-                print property, ": ", value
-                print '\n'
-            # if np.isnan(value):
-            #     if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
-            #         attngood = 0
-            #     good = 0
-            # else:
-            #     good = 1
-    print '\n'
-
-for property, value in vars(PCav_val).iteritems():
-    if 'PV' in property:
-        # print property
-        # print property, ": ", value
-        # print np.isnan(value)
-        # print np.any(np.isnan(value))
-        if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
-            print property, ": ", value
-            print '\n'        
-        if np.any(np.isnan(value)):
-            if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
-                    attngood = 0
-            good = 0
-        else:
-            good = 1
-
-if not(good):
-    print "There is a NaN in the PV"
+    print('Phase shifter read is fine')
+# Err report for chassis status err
+if not(statgood):
+    print('Error with AFE chassis status') 
 else:
-    print "Everything is fine."
-
-if not(attngood):
-    print 'Error with amp, attn, and charge'
-else:
-    print 'Amp, attn, and charge is fine'
+    print('AFE chassis status is fine')
 
 
 
 
 
-# Soft PV setup test
-# SPV_setup.SPV_dib(Cav,PCav_Sys)
 
+# # System and cavity value
+# for i in range(2):
+#     for property, value in vars(Cav_val[i]).iteritems():
+#         if 'PV' in property:
+#             # print property, ": ", value
+#             if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+#                 print property, ": ", value
+#                 print '\n'
+#             # if np.isnan(value):
+#             #     if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+#             #         attngood = 0
+#             #     good = 0
+#             # else:
+#             #     good = 1
+#     print '\n'
 
-
-# trigger_pv_setup(pcav1, 'UND:R02:EVR:16', evr_chan)
-# trigger_pv_setup(pcav2, 'UND:R02:EVR:17', evr_chan)
-
-
-
-# print(pcav1.pv_trig_enable)
-
-# for i in range(evr_chan-1):
-# 	print(pcav1.pv_trig_enable[i])
-# print('\n')
-
-# for i in range(evr_chan-1):
-# 	print(pcav1.pv_trig_eventcode[i])
-# print('\n')
-
-# for i in range(evr_chan-1):
-# 	print(pcav1.pv_trig_event_enable[i])
-
-# print(pcav1.Cav_Num)
-# print('\n')
-
-# for i in range(evr_chan-1):
-# 	print(pcav2.pv_trig_enable[i])
-# print('\n')
-
-# for i in range(evr_chan-1):
-# 	print(pcav2.pv_trig_eventcode[i])
-# print('\n')
-
-# for i in range(evr_chan-1):
-# 	print(pcav2.pv_trig_event_enable[i])
-
-# print(pcav2.Cav_Num)
-# print('\n')
+# for property, value in vars(PCav_val).iteritems():
+#     if 'PV' in property:
+#         # print property
+#         # print property, ": ", value
+#         # print np.isnan(value)
+#         # print np.any(np.isnan(value))
+#         if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+#             print property, ": ", value
+#             print '\n'        
+#         if np.any(np.isnan(value)):
+#             if any(temp in property for temp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+#                     attngood = 0
+#             good = 0
+#         else:
+#             good = 1
