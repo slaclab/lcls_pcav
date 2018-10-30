@@ -2,7 +2,8 @@ import Pcav_Init as sys_setup
 import Cavity_Init as cavity_setup
 import SPV_setup
 import epics as epics
-import time
+import time as time
+import datetime as datetime
 
 import Pv_Setup as PV
 import numpy as np
@@ -78,10 +79,13 @@ for i in range(2):
 # print blah[15]
 
 # caget values from the PVs
+old_time = datetime.datetime.now()
+new_time = old_time
 good = 1
 attngood = 1
 triggood = 1
 statgood = 1
+
 for i in range(2):
     for property, value in vars(Cav[i]).iteritems():
         if 'PV' in property:
@@ -91,10 +95,13 @@ for i in range(2):
             if value1 == None:
                 value1 = np.nan
                 good = 0
+                # This checks if any of the attn/amp/charge value is NaN
                 if any(ptemp in property for ptemp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
                     attngood = 0
                 elif any(ptemp in value for ptemp in ('EVR', 'evr')):
-                    triggood = 0                
+                    triggood = 0
+                elif any(ptemp in property for ptemp in ('Status', 'status')):
+                    statgood = 0                
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
 
@@ -112,10 +119,16 @@ for property, value in vars(PCav_Sys).iteritems():
             for x in range(value_len):
                 # print(value[x])
                 temp[x] = epics.caget(value[x])
-                if any(ptemp in value[x] for ptemp in ('EVR', 'evr')):
-                    print('Got one! ' + value[x])
                 if temp[x] == None:
                     temp[x] = np.nan
+                    good = 0
+                    if any(ptemp in property for ptemp in ('Atten','Amp','Cav_PV_BeamQ_Rb','Cav_PV_Q_Max')):
+                        attngood = 0
+                    elif any(ptemp in value[x] for ptemp in ('EVR','evr')):
+                        triggood = 0
+                    elif any(ptemp in value[x] for ptemp in ('Status','status')):
+                        statgood = 0
+                        
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
                 setattr(PCav_val, property, temp)
         else:
@@ -124,9 +137,17 @@ for property, value in vars(PCav_Sys).iteritems():
                 value1 = np.nan            
             setattr(PCav_val, property, value1)
             print(str(value) + ' value is: ' + str(value1))
+new_time = datetime.datetime.now()
 
 print ('########################################################################')
 print ('########################################################################')
+
+print PCav_val.Cav_PV_Beamf
+if (not(new_time > old_time) and (PCav_val.Cav_PV_Beamf != 0)):
+    print('Digitizer data is stale, timestamp is ' + str(new_time))
+else:
+    print('Timestamp is fine')
+    
 
 # System and cavity value
 for i in range(2):
