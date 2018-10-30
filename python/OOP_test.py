@@ -146,7 +146,7 @@ print PCav_val.Cav_PV_Beamf
 if (not(new_time > old_time) and (PCav_val.Cav_PV_Beamf != 0)):
     print('Digitizer data is stale, timestamp is ' + str(new_time))
 else:
-    print('Timestamp is fine')
+    print('Timestamp is fine ' + str(new_time))
     
 
 # System and cavity value
