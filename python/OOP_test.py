@@ -127,7 +127,7 @@ for property, value in vars(PCav_Sys).iteritems():
                     elif 'Ele_PV_Phi_Ctrl' in property:
                         mmsgood  = 0                    
                 # Check chassis status bit    
-                if (any(ptemp in property for ptemp in ('Status', 'status')) and (temp[x] != 0):
+                if (any(ptemp in property for ptemp in ('Status', 'status')) and (temp[x] != 0)):
                     statgood = 0
                     # print('Error with AFE chassis status')                            
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
@@ -150,7 +150,7 @@ for property, value in vars(PCav_Sys).iteritems():
                     mmsgood  = 0
                     # print('Error with the MMS phase shifter')
             # Check chassis status bit    
-            if (any(ptemp in property for ptemp in ('Status', 'status')) and (value1 != 0):
+            if (any(ptemp in property for ptemp in ('Status', 'status')) and (value1 != 0)):
                 statgood = 0
                 # print('Error with AFE chassis status') 
             setattr(PCav_val, property, value1)
