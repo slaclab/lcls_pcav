@@ -181,7 +181,7 @@ if not(mmsgood):
 else:
     print('Phase shifter read is fine')
 # Err report for chassis status err
-if not(statgood):
+if statgood:
     print('Error with AFE chassis status') 
 else:
     print('AFE chassis status is fine')
