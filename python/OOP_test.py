@@ -96,7 +96,7 @@ for i in range(2):
 
             if 'Ele_PV_Phi_Ctrl' in property:
                 print '++++++++++++++++++++++++++++++++++++++++++++++++++'
-                print property, ':', value1
+                print property, ':', value
                 print '++++++++++++++++++++++++++++++++++++++++++++++++++'
 
             if value1 == None:
@@ -131,7 +131,7 @@ for property, value in vars(PCav_Sys).iteritems():
 
                 if 'Ele_PV_Phi_Ctrl' in property:
                     print '++++++++++++++++++++++++++++++++++++++++++++++++++'                    
-                    print property, ':', temp[x]
+                    print property, '::::', temp[x]
                     print '++++++++++++++++++++++++++++++++++++++++++++++++++'
                                     
                 if temp[x] == None:
