@@ -94,7 +94,7 @@ for i in range(2):
             # print type(value)
             value1 = epics.caget(value)
 
-            if Ele_PV_Phi_Ctrl in property:
+            if 'Ele_PV_Phi_Ctrl' in property:
                 print '++++++++++++++++++++++++++++++++++++++++++++++++++'
                 print property, ':', value1
                 print '++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -109,7 +109,7 @@ for i in range(2):
                     triggood = 0
                 elif any(ptemp in property for ptemp in ('Status', 'status')):
                     statgood = 0
-                elif Ele_PV_Phi_Ctrl in property:
+                elif 'Ele_PV_Phi_Ctrl' in property:
                     mmsgood  = 0                
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
@@ -129,7 +129,7 @@ for property, value in vars(PCav_Sys).iteritems():
                 # print(value[x])
                 temp[x] = epics.caget(value[x])
 
-                if Ele_PV_Phi_Ctrl in property:
+                if 'Ele_PV_Phi_Ctrl' in property:
                     print '++++++++++++++++++++++++++++++++++++++++++++++++++'                    
                     print property, ':', temp[x]
                     print '++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -143,7 +143,7 @@ for property, value in vars(PCav_Sys).iteritems():
                         triggood = 0
                     elif any(ptemp in value[x] for ptemp in ('Status','status')):
                         statgood = 0
-                    elif Ele_PV_Phi_Ctrl in property:
+                    elif 'Ele_PV_Phi_Ctrl' in property:
                         mmsgood  = 0
                         
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
