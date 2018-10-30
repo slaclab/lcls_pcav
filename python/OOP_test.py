@@ -93,12 +93,6 @@ for i in range(2):
             # print property, ": ", value
             # print type(value)
             value1 = epics.caget(value)
-
-            if 'Ele_PV_Phi_Ctrl' in property:
-                print '++++++++++++++++++++++++++++++++++++++++++++++++++'
-                print property, ':', value
-                print '++++++++++++++++++++++++++++++++++++++++++++++++++'
-
             if value1 == None:
                 value1 = np.nan
                 good = 0
@@ -128,12 +122,6 @@ for property, value in vars(PCav_Sys).iteritems():
             for x in range(value_len):
                 # print(value[x])
                 temp[x] = epics.caget(value[x])
-
-                if 'Ele_PV_Phi_Ctrl' in property:
-                    print '++++++++++++++++++++++++++++++++++++++++++++++++++'                    
-                    print property, '::::', temp[x]
-                    print '++++++++++++++++++++++++++++++++++++++++++++++++++'
-                                    
                 if temp[x] == None:
                     temp[x] = np.nan
                     good = 0
@@ -164,7 +152,11 @@ if (not(new_time > old_time) and (PCav_val.Cav_PV_Beamf != 0)):
     print('Digitizer data is stale, timestamp is ' + str(new_time))
 else:
     print('Timestamp is fine ' + str(new_time))
-    
+
+if not(mmsgood):
+    print('Read failure from phase shifter controls')
+else:
+    print('Phase shifter is fine')
 
 # System and cavity value
 for i in range(2):
