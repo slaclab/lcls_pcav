@@ -85,6 +85,7 @@ good = 1
 attngood = 1
 triggood = 1
 statgood = 1
+mmsgood  = 1
 
 for i in range(2):
     for property, value in vars(Cav[i]).iteritems():
@@ -92,6 +93,12 @@ for i in range(2):
             # print property, ": ", value
             # print type(value)
             value1 = epics.caget(value)
+
+            if Ele_PV_Phi_Ctrl in property:
+                print '++++++++++++++++++++++++++++++++++++++++++++++++++'
+                print property, ':', value1
+                print '++++++++++++++++++++++++++++++++++++++++++++++++++'
+
             if value1 == None:
                 value1 = np.nan
                 good = 0
@@ -101,7 +108,9 @@ for i in range(2):
                 elif any(ptemp in value for ptemp in ('EVR', 'evr')):
                     triggood = 0
                 elif any(ptemp in property for ptemp in ('Status', 'status')):
-                    statgood = 0                
+                    statgood = 0
+                elif Ele_PV_Phi_Ctrl in property:
+                    mmsgood  = 0                
             setattr(Cav_val[i], property, value1)
             print(str(value) + ' value is: ' + str(value1))
 
@@ -119,6 +128,12 @@ for property, value in vars(PCav_Sys).iteritems():
             for x in range(value_len):
                 # print(value[x])
                 temp[x] = epics.caget(value[x])
+
+                if Ele_PV_Phi_Ctrl in property:
+                    print '++++++++++++++++++++++++++++++++++++++++++++++++++'                    
+                    print property, ':', temp[x]
+                    print '++++++++++++++++++++++++++++++++++++++++++++++++++'
+                                    
                 if temp[x] == None:
                     temp[x] = np.nan
                     good = 0
@@ -128,6 +143,8 @@ for property, value in vars(PCav_Sys).iteritems():
                         triggood = 0
                     elif any(ptemp in value[x] for ptemp in ('Status','status')):
                         statgood = 0
+                    elif Ele_PV_Phi_Ctrl in property:
+                        mmsgood  = 0
                         
                 print(str(value[x]) + ' value is: ' + str(temp[x]))
                 setattr(PCav_val, property, temp)
