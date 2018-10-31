@@ -123,8 +123,14 @@ while True:
     if attngood:
         charge_ratio = 1e3 * (PCav_val.Cav_PV_BeamQ_Rb / PCav_val.Cav_PV_Q_Max)
         print charge_ratio
-        print Cav[0].Ele_Attn_Gain1
-        print str(np.multiply(charge_ratio, Cav_val[0].Ele_Attn_Gain1))
+        for i in range(2):
+            print i
+            print Cav[i].Ele_Attn_Gain1
+            print Cav[i].Ele_Attn_Gain2
+            print str(np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain1))
+            print str(np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain2))
+
+        
         # attn_val = 
 
 
