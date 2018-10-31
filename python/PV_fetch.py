@@ -32,7 +32,7 @@ def PV_collect(Cav_class, class_type, Cav_val, new_time, good, attngood, triggoo
                         statgood = 0
                         # print('Error with AFE chassis status')     
                     setattr(Cav_val[i], property, value1)
-                    print(str(value) + ' value is: ' + str(value1))
+                    # print(str(value) + ' value is: ' + str(value1))
         new_time = datetime.datetime.now()                                
     else:
         # Fetching PV value for the Phase Cavity system values
@@ -63,7 +63,7 @@ def PV_collect(Cav_class, class_type, Cav_val, new_time, good, attngood, triggoo
                         if (any(ptemp in property for ptemp in ('Status', 'status')) and (temp[x] != 0)):
                             statgood = 0
                             # print('Error with AFE chassis status')                            
-                        print(str(value[x]) + ' value is: ' + str(temp[x]))
+                        # print(str(value[x]) + ' value is: ' + str(temp[x]))
                         setattr(Cav_val, property, temp)
                 else:
                     value1 = epics.caget(value)
@@ -87,7 +87,7 @@ def PV_collect(Cav_class, class_type, Cav_val, new_time, good, attngood, triggoo
                         statgood = 0
                         # print('Error with AFE chassis status') 
                     setattr(Cav_val, property, value1)
-                    print(str(value) + ' value is: ' + str(value1))
+                    # print(str(value) + ' value is: ' + str(value1))
         new_time = datetime.datetime.now()
             
     return new_time, good, attngood, triggood, statgood, mmsgood
