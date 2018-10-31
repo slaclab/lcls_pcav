@@ -99,11 +99,11 @@ while True:
     # Err report for chassis status err
     if statgood:
         print('Error with AFE chassis status') 
+    else:
+        print('AFE chassis status is fine')            
     # Error report for any NaN values
     if not(good):
         print "There is a NaN in the PV"
-    else:
-        print('AFE chassis status is fine')    
     else:
         print "No NaN values"
 
