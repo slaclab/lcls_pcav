@@ -33,7 +33,7 @@ def PV_collect(Cav_class, class_type, Cav_val, new_time, good, attngood, triggoo
                                 statgood = 0
                                 # print('Error with AFE chassis status')                            
                             print(str(value[x]) + ' value is: ' + str(temp[x]))
-                            setattr(Cav_class, property, temp)
+                            setattr(Cav_class[i], property, temp)
                     else:
                         value1 = epics.caget(value)
                         if value1 == None:
@@ -55,7 +55,7 @@ def PV_collect(Cav_class, class_type, Cav_val, new_time, good, attngood, triggoo
                         if (any(ptemp in property for ptemp in ('Status', 'status')) and (value1 != 0)):
                             statgood = 0
                             # print('Error with AFE chassis status') 
-                        setattr(Cav_class, property, value1)
+                        setattr(Cav_class[i], property, value1)
                         print(str(value) + ' value is: ' + str(value1))
             new_time = datetime.datetime.now()
             
