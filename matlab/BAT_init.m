@@ -66,7 +66,7 @@ static.pv.trig.delay = 'UND:R02:EVR:16:CTRL.DG0D';         % digitizer trigger d
 
 % matlab PVs for the feedback process
 static.pv.in.charge         = 'IOC:IN20:BP01:QANN';         % beam charge estimate
-static.pv.in.charge_max     = [pre '742'];       % for choosing attenuation (pC)
+static.pv.in. _max     = [pre '742'];       % for choosing attenuation (pC)
 %static.pv.out.mon_119       = [pre '743'];       % Channel 3&4 119 MHz (rad 119?)
 static.pv.in.time_ctrl      = [pre '744'];       % time control (?) (ps)
 static.pv.in.dac_scale      = [pre '746'];       % DAC I/Q scale (V)

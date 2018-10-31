@@ -99,11 +99,11 @@ while True:
     # Err report for chassis status err
     if statgood:
         print('Error with AFE chassis status') 
-    else:
-        print('AFE chassis status is fine')    
     # Error report for any NaN values
     if not(good):
         print "There is a NaN in the PV"
+    else:
+        print('AFE chassis status is fine')    
     else:
         print "No NaN values"
 
@@ -119,6 +119,11 @@ while True:
     print('    L      \___ ___ ___]   ')
     print('               I   I       ')
     print('            ----------/    ')
+
+    if attngood:
+        charge_ratio = 1e3 * (PCav_val.Cav_PV_BeamQ_Rb / PCav_val.Cav_PV_Q_Max)
+        print str(charge_ratio * Cav_val[0].Ele_Attn_Gain1)
+        # attn_val = 
 
 
 
