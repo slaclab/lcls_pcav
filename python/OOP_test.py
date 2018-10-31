@@ -132,7 +132,7 @@ while True:
             print blah0
             attn_ind = np.nonzero(blah0 >= 1)[0]
             print (np.nonzero(blah0 >= 9)[0])
-            print attn_ind
+            print attn_ind[0]
             # print str(blah0)
             # print str(blah1)
 
