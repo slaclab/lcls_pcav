@@ -129,7 +129,9 @@ while True:
             # print Cav[i].Ele_Attn_Gain2
             blah0 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain1)
             blah1 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain2)
+            print blah0
             attn_ind = np.nonzero(blah0 >= 4)
+            print (np.nonzero(blah0 >= 9))
             print attn_ind
             # print str(blah0)
             # print str(blah1)
