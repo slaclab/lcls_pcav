@@ -125,18 +125,21 @@ while True:
         charge_ratio = 1e3 * (PCav_val.Cav_PV_BeamQ_Rb / PCav_val.Cav_PV_Q_Max)
         print charge_ratio
         for i in range(2):
-            # print Cav[i].Ele_Attn_Gain1
-            # print Cav[i].Ele_Attn_Gain2
             blah0 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain1)
             blah1 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain2)
-            print blah0
             attn_ind = np.nonzero(blah0 >= 1)[0]
-            asdf = np.nonzero(blah0 >= 9)[0]
-            if not asdf:
-                print('no match found!!!')
+            if not attn_ind:
+                attn_ind = 14
             print attn_ind[0]
-            # print str(blah0)
-            # print str(blah1)
+            amp_thres = (1e3 * PCav_val.Cav_PV_BeamQ_Rb) < PCav_val.Calc_PV_Amp_max
+            if any(temp != amp_thres for temp in (Cav_val[i].Amp1, Cav_val[i].amp2)):
+                print('Switching high gain amplifier to ' + str(amp_thres))
+            else:
+                print amp_thres
+                print Cav_val[i].Amp1
+                print Cav_val[i].Amp2
+
+
 
         
         # attn_val = 
