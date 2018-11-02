@@ -138,7 +138,6 @@ while True:
                 print amp_thres
                 print Cav_val[i].Amp1
                 print Cav_val[i].Amp2
-                print (' ')
 
 
 
