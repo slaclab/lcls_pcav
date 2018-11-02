@@ -127,7 +127,7 @@ while True:
         for i in range(2):
             blah0 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain1)
             blah1 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain2)
-            attn_ind = np.nonzero(blah0 >= 1)[0]
+            attn_ind = np.nonzero(blah0 >= 1)[0][0]
             print attn_ind
             if not attn_ind:
                 attn_ind = 14
