@@ -131,7 +131,7 @@ while True:
             print attn_ind
             if not attn_ind:
                 attn_ind = 14
-            print attn_ind[0]
+            print attn_ind
             amp_thres = (1e3 * PCav_val.Cav_PV_BeamQ_Rb) < PCav_val.Calc_PV_Amp_max
             if any(temp != amp_thres for temp in (Cav_val[i].Amp1, Cav_val[i].amp2)):
                 print('Switching high gain amplifier to ' + str(amp_thres))
