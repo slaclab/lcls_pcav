@@ -136,8 +136,8 @@ while True:
                 print('Switching high gain amplifier to ' + str(amp_thres))
             else:
                 print amp_thres
-                print Cav_val[i].Amp1
-                print Cav_val[i].Amp2
+                print Cav_val[i].Ele_PV_Amp1
+                print Cav_val[i].Ele_PV_Amp2
 
 
 
