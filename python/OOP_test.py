@@ -135,6 +135,10 @@ while True:
             if any(temp != amp_thres for temp in (Cav_val[i].Ele_PV_Amp1, Cav_val[i].Ele_PV_Amp2)):
                 print('Switching high gain amplifier to ' + str(amp_thres))
             else:
+                print PCav_val.Cav_PV_BeamQ_Rb
+                print (1e3 * PCav_val.Cav_PV_BeamQ_Rb)
+                print np.multipy(1e3, PCav_val.Cav_PV_BeamQ_Rb)
+                print PCav_val.Calc_PV_Amp_max
                 print amp_thres
                 print Cav_val[i].Ele_PV_Amp1
                 print Cav_val[i].Ele_PV_Amp2
