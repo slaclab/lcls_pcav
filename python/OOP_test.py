@@ -123,12 +123,12 @@ while True:
 # Set correct Amp/Attn setting
     if attngood:
         charge_ratio = 1e3 * (PCav_val.Cav_PV_BeamQ_Rb / PCav_val.Cav_PV_Q_Max)
-        print charge_ratio
+        # print charge_ratio
         for i in range(2):
             blah0 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain1)
             blah1 = np.multiply(charge_ratio, Cav[i].Ele_Attn_Gain2)
             attn_ind = np.nonzero(blah0 >= 1)[0][0]
-            print attn_ind
+            # print attn_ind
             if not attn_ind:
                 attn_ind = 14
             amp_thres = (1e3 * PCav_val.Cav_PV_BeamQ_Rb) < PCav_val.Calc_PV_Amp_max
