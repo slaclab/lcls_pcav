@@ -116,7 +116,7 @@ while 1
         amplifier = (1e3 * new.charge) < new.in.amp_threshold;
         if any(new.ctrl.amp ~= amplifier)
             disp_log(strcat({'Switching high gain amplifier to '}, num2str(amplifier)));
-            isPV = lcaPutSmart(static.pv.ctrl.amp', repmat(double(amplifier), size(static.pv.ctrl.amp')));
+            isPV = lcaPutSmart(static.pv.ctrl.amp', repmat(double(amplifier), size(static.pv.ctrl.amp')) );
             if ~all(isPV)
                 disp_log('Problem switching amplifier');
             end

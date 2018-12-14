@@ -86,21 +86,25 @@ while True:
         print 'NaN Error with amp, attn, and charge'
     else:
         print 'Amp, attn, and charge read is fine'
+    
     # Err report for stale PV data
     if (not(new_time > old_time) and (PCav_val.Cav_PV_Beamf != 0)):
         print('Digitizer data is stale, timestamp is ' + str(new_time))
     else:
         print('Timestamp is fine ' + str(new_time))
+    
     # Err report for phase shifter NaN PV values
     if not(mmsgood):
         print('Read failure from phase shifter controls')
     else:
         print('Phase shifter read is fine')
+    
     # Err report for chassis status err
     if statgood:
         print('Error with AFE chassis status') 
     else:
         print('AFE chassis status is fine')            
+    
     # Error report for any NaN values
     if not(good):
         print "There is a NaN in the PV"
@@ -134,6 +138,9 @@ while True:
             amp_thres = (1e3 * PCav_val.Cav_PV_BeamQ_Rb) < PCav_val.Calc_PV_Amp_max
             if any(temp != amp_thres for temp in (Cav_val[i].Ele_PV_Amp1, Cav_val[i].Ele_PV_Amp2)):
                 print('Switching high gain amplifier to ' + str(amp_thres))
+                print('epics.caput(' + str(Cav[i].Ele_PV_Amp1) + ', ' + str(amp_thres) + ')')
+                print('epics.caput(' + str(Cav[i].Ele_PV_Amp2) + ', ' + str(amp_thres) + ')')
+
             else:
                 print PCav_val.Cav_PV_BeamQ_Rb
                 print (1e3 * PCav_val.Cav_PV_BeamQ_Rb)
