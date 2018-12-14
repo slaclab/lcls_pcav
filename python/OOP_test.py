@@ -149,6 +149,10 @@ while True:
                 print amp_thres
                 print Cav_val[i].Ele_PV_Amp1
                 print Cav_val[i].Ele_PV_Amp2
+                print('Testing caput print out')
+                print('Switching high gain amplifier to ' + str(amp_thres))
+                print('epics.caput(' + str(Cav[i].Ele_PV_Amp1) + ', ' + str(amp_thres) + ')')
+                print('epics.caput(' + str(Cav[i].Ele_PV_Amp2) + ', ' + str(amp_thres) + ')')
                 # Happy day
 
 
