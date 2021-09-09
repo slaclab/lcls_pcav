@@ -25,17 +25,33 @@ figure();
 plot(raw_time);
 grid on
 
+
 fs = 357e6;
 L = length(raw_array(1,:));
+
 NFFT = 2^nextpow2(L);
 Y = fft(raw_array(:,:), NFFT, 2)/L;
 f = (fs/2)*(linspace(0,1,NFFT/2));
 
 data_f_amp = 2 * abs(Y(:,1:NFFT/2));
 data_f_dB  = 20*log10(data_f_amp);
+[~,cav_f_ind] = max(data_f_dB,[],2);
+cav_f = f(cav_f_ind);
+figure();
+plot(cav_f); grid on
 
 figure();
 for i = 1:time_size(1)
     plot(f,data_f_dB(i,:)); hold on
 end
 hold off; grid on;
+
+
+% testf = 85e6;
+% T = 0:(1/fs):L*(1/fs);
+% testw = sin(2*pi*testf*T);
+% Y1 = fft(testw, NFFT)/L;
+% data_f1_amp = 2 * abs(Y1(1,1:NFFT/2));
+% data_f1_dB  = 20*log10(data_f1_amp);
+% figure();
+% plot(f,data_f1_dB); grid on
