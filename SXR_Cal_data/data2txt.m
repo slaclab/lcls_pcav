@@ -4,4 +4,10 @@
 % Convert the .data extention to .txt for import to matlab
 
 blah = dir('*.data');
-blah1 = length(blah);
+L = length(blah);
+for i = 1:L
+    a = blah(i).name;
+    b = strsplit(a,'.');
+    fn = [char(b(1)) '.txt'];
+    movefile(a, fn)
+end
