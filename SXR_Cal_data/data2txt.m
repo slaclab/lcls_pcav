@@ -11,3 +11,12 @@ for i = 1:L
     fn = [char(b(1)) '.txt'];
     movefile(a, fn)
 end
+
+% clear all
+% a = dir('*Ch1*')
+% a.name
+% for i = 1:11
+%     % b = strsplit(a(i).name, '.');
+%     % c(i,:) = b(1);
+%     c(i,:) = a(i).name;
+% end

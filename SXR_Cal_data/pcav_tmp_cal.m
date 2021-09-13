@@ -4,14 +4,29 @@
 % Reading in phase cavity calibration files
 
 clear all; close all;
-data_table = readtable('Ch1_data_20201023_113100.txt', 'Delimiter', ' ');
+
+a = dir('*Ch8*');
+for i = 1:length(a)
+    % b = strsplit(a(i).name, '.');
+    % c(i,:) = b(1);
+    c(i,:) = a(i).name;
+end
+ba = strsplit(c(1,:),'.');
+bb = char(ba(1));
+bc = bb(9:end);
+% data_table = readtable('Ch8_data_20201023_113100.txt', 'Delimiter', ' ');
+data_table = readtable(['Ch8_data' bc '.txt'], 'Delimiter', ' ');
+wf_length  = table2array(data_table(1,4));
+raw_wf = zeros(height(data_table), wf_length);
+raw_wf = table2array(data_table(:,5:end));
 data_table = removevars(data_table, {'Var1', 'Var2', 'Var3', 'Var4'});
 raw_array  = table2array(data_table);
-figure();
-plot(raw_array(1,:));
-grid on
+% figure();
+% plot(raw_array(1,:));
+% grid on
+size(raw_array)
 
-time_table = readtable('Time0_20201023_113100.txt', 'Delimiter', ' ');
+time_table = readtable(['Time1' bc '.txt'], 'Delimiter', ' ');
 time_size = size(time_table)
 target_var = 12;
 for i = 1:target_var-1
@@ -21,10 +36,10 @@ for i = 0:(time_size(2)-target_var-1)
     time_table = removevars(time_table, ['Var' num2str(time_size(2)-i)]);
 end
 raw_time  = table2array(time_table);
-figure();
-plot(raw_time);
-grid on
-
+raw_time  = raw_time';
+% figure();
+% plot(raw_time);
+% grid on
 
 fs = 357e6;
 L = length(raw_array(1,:));
@@ -35,10 +50,11 @@ f = (fs/2)*(linspace(0,1,NFFT/2));
 
 data_f_amp = 2 * abs(Y(:,1:NFFT/2));
 data_f_dB  = 20*log10(data_f_amp);
-[~,cav_f_ind] = max(data_f_dB,[],2);
+[~,cav_f_ind] = max(data_f_dB(:,:),[],2);
 cav_f = f(cav_f_ind);
-figure();
-plot(cav_f); grid on
+
+% figure();
+% plot(cav_f); grid on
 
 figure();
 for i = 1:time_size(1)
@@ -46,6 +62,54 @@ for i = 1:time_size(1)
 end
 hold off; grid on;
 
+for i = 2:length(a)
+    ba = strsplit(c(i,:),'.');
+    bb = char(ba(1));
+    bc = bb(9:end);
+    % data_table = readtable('Ch8_data_20201023_113100.txt', 'Delimiter', ' ');
+    data_table = readtable(['Ch8_data' bc '.txt'], 'Delimiter', ' ');
+    data_table = removevars(data_table, {'Var1', 'Var2', 'Var3', 'Var4'});
+    raw_array  = table2array(data_table);
+    % figure();
+    % plot(raw_array(1,:));
+    % grid on
+    size(raw_array)
+    L = length(raw_array(1,:));
+
+    NFFT = 2^nextpow2(L);
+    Y = fft(raw_array(:,:), NFFT, 2)/L;
+    f = (fs/2)*(linspace(0,1,NFFT/2));
+
+    data_f_amp = 2 * abs(Y(:,1:NFFT/2));
+    data_f_dB  = 20*log10(data_f_amp);
+    [~,cav_f_ind] = max(data_f_dB(:,:),[],2);
+    cav_f1 = f(cav_f_ind);
+    cav_f = [cav_f cav_f1];
+
+    time_table = readtable(['Time1' bc '.txt'], 'Delimiter', ' ');
+    time_size = size(time_table)
+    target_var = 12;
+    for j = 1:target_var-1
+        time_table = removevars(time_table, ['Var' num2str(j)]);
+    end
+    for j = 0:(time_size(2)-target_var-1)
+        time_table = removevars(time_table, ['Var' num2str(time_size(2)-j)]);
+    end
+    raw_time1  = table2array(time_table);
+    raw_time = [raw_time raw_time1'];
+    % figure();
+    % plot(cav_f); grid on
+
+    % figure();
+    % for i = 1:time_size(1)
+    %     plot(f,data_f_dB(i,:)); hold on
+    % end
+    % hold off; grid on;
+end
+
+figure();plot(cav_f); grid on
+size(cav_f)
+size(raw_time)
 
 % testf = 85e6;
 % T = 0:(1/fs):L*(1/fs);
