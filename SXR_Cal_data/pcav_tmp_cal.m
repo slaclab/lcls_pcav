@@ -17,35 +17,28 @@ bc = bb(9:end);
 % data_table = readtable('Ch8_data_20201023_113100.txt', 'Delimiter', ' ');
 data_table = readtable(['Ch8_data' bc '.txt'], 'Delimiter', ' ');
 wf_length  = table2array(data_table(1,4));
-raw_wf = zeros(height(data_table), wf_length);
+% raw_wf = zeros(height(data_table), wf_length);
+wf_ts  = ceil(seconds(table2array(data_table(:,3))))';
 raw_wf = table2array(data_table(:,5:end));
-data_table = removevars(data_table, {'Var1', 'Var2', 'Var3', 'Var4'});
-raw_array  = table2array(data_table);
 % figure();
 % plot(raw_array(1,:));
 % grid on
-size(raw_array)
+size(raw_wf)
 
 time_table = readtable(['Time1' bc '.txt'], 'Delimiter', ' ');
 time_size = size(time_table)
 target_var = 12;
-for i = 1:target_var-1
-    time_table = removevars(time_table, ['Var' num2str(i)]);
-end
-for i = 0:(time_size(2)-target_var-1)
-    time_table = removevars(time_table, ['Var' num2str(time_size(2)-i)]);
-end
-raw_time  = table2array(time_table);
-raw_time  = raw_time';
+raw_time  = table2array(time_table(:,12))';
+time_ts = ceil(seconds(table2array(time_table(:,11))))';
 % figure();
 % plot(raw_time);
 % grid on
 
 fs = 357e6;
-L = length(raw_array(1,:));
+L = length(raw_wf(1,:));
 
 NFFT = 2^nextpow2(L);
-Y = fft(raw_array(:,:), NFFT, 2)/L;
+Y = fft(raw_wf(:,:), NFFT, 2)/L;
 f = (fs/2)*(linspace(0,1,NFFT/2));
 
 data_f_amp = 2 * abs(Y(:,1:NFFT/2));
@@ -68,16 +61,17 @@ for i = 2:length(a)
     bc = bb(9:end);
     % data_table = readtable('Ch8_data_20201023_113100.txt', 'Delimiter', ' ');
     data_table = readtable(['Ch8_data' bc '.txt'], 'Delimiter', ' ');
-    data_table = removevars(data_table, {'Var1', 'Var2', 'Var3', 'Var4'});
-    raw_array  = table2array(data_table);
+    raw_wf = table2array(data_table(:,5:end));
+    wf_ts1 = ceil(seconds(table2array(data_table(:,3))))';
+    wf_ts  = [wf_ts wf_ts1];
     % figure();
     % plot(raw_array(1,:));
     % grid on
-    size(raw_array)
-    L = length(raw_array(1,:));
+    size(raw_wf)
+    L = length(raw_wf(1,:));
 
     NFFT = 2^nextpow2(L);
-    Y = fft(raw_array(:,:), NFFT, 2)/L;
+    Y = fft(raw_wf(:,:), NFFT, 2)/L;
     f = (fs/2)*(linspace(0,1,NFFT/2));
 
     data_f_amp = 2 * abs(Y(:,1:NFFT/2));
@@ -89,14 +83,11 @@ for i = 2:length(a)
     time_table = readtable(['Time1' bc '.txt'], 'Delimiter', ' ');
     time_size = size(time_table)
     target_var = 12;
-    for j = 1:target_var-1
-        time_table = removevars(time_table, ['Var' num2str(j)]);
-    end
-    for j = 0:(time_size(2)-target_var-1)
-        time_table = removevars(time_table, ['Var' num2str(time_size(2)-j)]);
-    end
-    raw_time1  = table2array(time_table);
-    raw_time = [raw_time raw_time1'];
+    raw_time1  = table2array(time_table(:,12))';
+    raw_time = [raw_time raw_time1];
+    time_ts1 = ceil(seconds(table2array(time_table(:,11))))';
+    time_ts  = [time_ts time_ts1];
+
     % figure();
     % plot(cav_f); grid on
 
@@ -106,10 +97,16 @@ for i = 2:length(a)
     % end
     % hold off; grid on;
 end
-
+bad_shot = (cav_f == 0);
+cav_f(bad_shot) = [];
+wf_ts(bad_shot) = [];
 figure();plot(cav_f); grid on
 size(cav_f)
 size(raw_time)
+cav_f(2,:) = cav_f(1,:);
+cav_f(1,:) = wf_ts(1,:);
+raw_time(2,:) = raw_time(1,:);
+raw_time(1,:) = time_ts(1,:);
 
 % testf = 85e6;
 % T = 0:(1/fs):L*(1/fs);
