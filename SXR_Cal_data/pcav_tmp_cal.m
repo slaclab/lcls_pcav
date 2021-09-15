@@ -37,7 +37,7 @@ time_ts = ceil(seconds(table2array(time_table(:,11))))';
 fs = 357e6;
 L = length(raw_wf(1,:));
 
-NFFT = 2^nextpow2(L);
+NFFT = 2^(nextpow2(L)+5);
 Y = fft(raw_wf(:,:), NFFT, 2)/L;
 f = (fs/2)*(linspace(0,1,NFFT/2));
 
@@ -70,7 +70,7 @@ for i = 2:length(a)
     size(raw_wf)
     L = length(raw_wf(1,:));
 
-    NFFT = 2^nextpow2(L);
+    NFFT = 2^(nextpow2(L)+5);
     Y = fft(raw_wf(:,:), NFFT, 2)/L;
     f = (fs/2)*(linspace(0,1,NFFT/2));
 
