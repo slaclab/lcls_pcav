@@ -104,9 +104,21 @@ figure();plot(cav_f); grid on
 size(cav_f)
 size(raw_time)
 cav_f(2,:) = cav_f(1,:);
-cav_f(1,:) = wf_ts(1,:);
+cav_f(1,:) = wf_ts(1,:) - (wf_ts(1,1));
 raw_time(2,:) = raw_time(1,:);
-raw_time(1,:) = time_ts(1,:);
+raw_time(1,:) = time_ts(1,:)-time_ts(1,1);
+figure(); plot(cav_f(1,:),cav_f(2,:)/(1e6)); grid on
+xlabel("time (s)"); set(get(gca, 'YLabel'), 'String', 'Frequency(MHz)');
+
+[sorted_cav_f(1,:),sorted_cav_f(2,:)] = sort(cav_f(2,:));
+
+time_match = zeros(1,length(raw_time));
+for i = 1:length(raw_time)
+    if 
+    if cav_f(1,i) == raw_time(1,i)
+        time_match(1,i) = i;
+    end
+end
 
 % testf = 85e6;
 % T = 0:(1/fs):L*(1/fs);
