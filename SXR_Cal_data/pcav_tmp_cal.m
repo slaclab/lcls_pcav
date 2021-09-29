@@ -113,11 +113,14 @@ xlabel("time (s)"); set(get(gca, 'YLabel'), 'String', 'Frequency(MHz)');
 [sorted_cav_f(1,:),sorted_cav_f(2,:)] = sort(cav_f(2,:));
 cav_f_bak = cav_f;
 raw_time_bak = raw_time;
+
+cav_f = cav_f_bak;
+raw_time = raw_time_bak;
 length_diff = length(cav_f) - length(raw_time);
 if length_diff > 0
-    cav_f(:,1:length_diff) = [];
+    cav_f(:,1:abs(length_diff)) = [];
 elseif length_diff < 0
-    raw_time(:,1:length_diff) = [];
+    raw_time(:,1:abs(length_diff)) = [];
 end
 
 % cav_f = cav_f_bak;
