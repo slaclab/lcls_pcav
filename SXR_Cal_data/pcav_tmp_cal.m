@@ -111,14 +111,45 @@ figure(); plot(cav_f(1,:),cav_f(2,:)/(1e6)); grid on
 xlabel("time (s)"); set(get(gca, 'YLabel'), 'String', 'Frequency(MHz)');
 
 [sorted_cav_f(1,:),sorted_cav_f(2,:)] = sort(cav_f(2,:));
-
-time_match = zeros(1,length(raw_time));
-for i = 1:length(raw_time)
-    if 
-    if cav_f(1,i) == raw_time(1,i)
-        time_match(1,i) = i;
-    end
+cav_f_bak = cav_f;
+raw_time_bak = raw_time;
+length_diff = length(cav_f) - length(raw_time);
+if length_diff > 0
+    cav_f(:,1:length_diff) = [];
+elseif length_diff < 0
+    raw_time(:,1:length_diff) = [];
 end
+
+% cav_f = cav_f_bak;
+% raw_time = raw_time_bak;
+% time_match = zeros(1,length(raw_time));
+% j = 1;
+% for i = 1:length(cav_f)
+%     if isempty(find(raw_time(1,:) == cav_f(1,i)))
+%         umatched(j,1) = i;
+%         i
+%         j = j+1;
+%     else
+%         time_ind = find(raw_time(1,:) == cav_f(1,i));
+%         time_match(1,i) = time_ind(1);
+%     end
+% end
+% cav_f(:,umatched(:)) = [];
+% umatched = [];
+% j = 1;
+% for i = 1:length(raw_time)
+%     if isempty(find(cav_f(1,:) == raw_time(1,i)))
+%         umatched(j,1) = i;
+%         i
+%         j = j+1;
+%     else
+%         time_ind = find(cav_f(1,:) == raw_time(1,i));
+%         time_match(1,i) = time_ind(1);
+%     end
+% end
+% raw_time(:,umatched(:)) = [];
+
+
 
 % testf = 85e6;
 % T = 0:(1/fs):L*(1/fs);
