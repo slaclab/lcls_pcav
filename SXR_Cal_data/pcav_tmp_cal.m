@@ -110,7 +110,6 @@ raw_time(1,:) = time_ts(1,:)-time_ts(1,1);
 figure(); plot(cav_f(1,:),cav_f(2,:)/(1e6)); grid on
 xlabel("time (s)"); set(get(gca, 'YLabel'), 'String', 'Frequency(MHz)');
 
-[sorted_cav_f(1,:),sorted_cav_f(2,:)] = sort(cav_f(2,:));
 cav_f_bak = cav_f;
 raw_time_bak = raw_time;
 
@@ -122,6 +121,9 @@ if length_diff > 0
 elseif length_diff < 0
     raw_time(:,1:abs(length_diff)) = [];
 end
+figure(); plot(raw_time(2,:),cav_f(2,:),'+'); grid on
+
+[sorted_cav_f(1,:),sorted_cav_f(2,:)] = sort(cav_f(2,:));
 
 % cav_f = cav_f_bak;
 % raw_time = raw_time_bak;
